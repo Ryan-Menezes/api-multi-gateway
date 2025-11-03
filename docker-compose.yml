@@ -1,0 +1,85 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api-multi-geteway-app
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    environment:
+      - DB_CONNECTION=mysql
+      - DB_HOST=api-multi-geteway-mysql
+      - DB_PORT=3306
+      - DB_USERNAME=api_multi_geteway
+      - DB_PASSWORD=api_multi_geteway
+      - DB_DATABASE=api_multi_geteway
+      - GATEWAY1_URL=http://api-multi-gateway-1:3001
+      - GATEWAY2_URL=http://api-multi-gateway-2:3002
+    volumes:
+      - .:/var/www
+      - /var/www/vendor
+      - /var/www/node_modules
+      - /var/www/public/build
+    networks:
+      - api_multi_geteway
+    depends_on:
+      - mysql
+      - gateway1
+      - gateway2
+
+  mysql:
+    image: mysql:8.0
+    container_name: api-multi-geteway-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: api_multi_geteway
+      MYSQL_USER: api_multi_geteway
+      MYSQL_PASSWORD: api_multi_geteway
+      MYSQL_ROOT_PASSWORD: api_multi_geteway
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - api_multi_geteway
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: api-multi-geteway-phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: api_multi_geteway
+      PMA_PASSWORD: api_multi_geteway
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+    networks:
+      - api_multi_geteway
+
+  gateway1:
+    image: matheusprotzen/gateways-mock
+    container_name: api-multi-gateway-1
+    ports:
+      - "3001:3001"
+    environment:
+      - REMOVE_AUTH=false
+
+  gateway2:
+    image: matheusprotzen/gateways-mock
+    container_name: api-multi-gateway-2
+    ports:
+      - "3002:3002"
+    environment:
+      - REMOVE_AUTH=false
+
+volumes:
+  mysql_data:
+
+networks:
+  api_multi_geteway:
+    driver: bridge
