@@ -1,2 +1,4 @@
-docker exec -it api-multi-geteway-app php artisan migrate
+ docker compose up --build
+docker exec -it api-multi-geteway-app php artisan migrate --seed
 docker exec -it api-multi-geteway-app php artisan key:generate
+docker exec -it api-multi-geteway-app php artisan migrate:fresh --seed

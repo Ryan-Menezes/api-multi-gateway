@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class Transaction extends Model
+{
+    /** @use HasFactory<\Database\Factories\TransactionFactory> */
+    use HasFactory;
+
+    public $timestamps = false;
+
+    protected $fillable = [
+        'client_id',
+        'gateway_id',
+        'external_id',
+        'status',
+        'amount',
+        'card_last_numbers',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'client_id' => 'integer',
+            'gateway_id' => 'integer',
+            'status' => 'integer',
+            'amount' => 'integer',
+        ];
+    }
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class);
+    }
+
+    public function gateway(): BelongsTo
+    {
+        return $this->belongsTo(Gateway::class);
+    }
+
+    public function transactionProducts(): HasMany
+    {
+        return $this->hasMany(TransactionProduct::class);
+    }
+}
