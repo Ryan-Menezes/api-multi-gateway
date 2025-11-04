@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Enums\UserRoleEnum;
+use App\Repositories\Client\ClientRepository;
+use App\Repositories\Client\ClientRepositoryInterface;
 use App\Repositories\Gateway\GatewayRepository;
 use App\Repositories\Gateway\GatewayRepositoryInterface;
 use App\Repositories\Product\ProductRepository;
@@ -22,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(GatewayRepositoryInterface::class, GatewayRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
+        $this->app->bind(ClientRepositoryInterface::class, ClientRepository::class);
     }
 
     /**
