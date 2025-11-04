@@ -3,6 +3,10 @@
 namespace App\Providers;
 
 use App\Enums\UserRoleEnum;
+use App\Repositories\Gateway\GatewayRepository;
+use App\Repositories\Gateway\GatewayRepositoryInterface;
+use App\Repositories\User\UserRepository;
+use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -13,7 +17,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(GatewayRepositoryInterface::class, GatewayRepository::class);
     }
 
     /**

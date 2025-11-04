@@ -2,43 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Auth\AuthLoginRequest;
+use App\Services\AuthService;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
-    {
-        $credentials = $request->validate([
-            'email'    => 'required|email',
-            'password' => 'required|string',
-        ]);
+    public function __construct(
+        private AuthService $authService,
+    ) {}
 
-        if (!$token = Auth::guard('api')->attempt($credentials)) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
-        }
+    public function login(AuthLoginRequest $request)
+    {
+        $data = $request->validated();
+
+        $token = $this->authService->validateLoginAndGenerateToken($data);
 
         return $this->respondWithToken($token);
     }
 
     public function me()
     {
-        /** @var App\Models\User  */
-        $user = Auth::user();
+        $user = $this->authService->getCurrentLoggedUser();
 
-        return $this->json($user->toArray());
+        return $this->json($user);
     }
 
     public function logout()
     {
-        Auth::logout();
+        $this->authService->logout();
 
         return $this->success('Logout successfully');
     }
 
     public function refresh()
     {
-        $token = Auth::refresh();
+        $token = $this->authService->refreshToken();
 
         return $this->respondWithToken($token);
     }
@@ -48,7 +46,7 @@ class AuthController extends Controller
         return $this->json([
             'access_token' => $token,
             'token_type'   => 'bearer',
-            'expires_in'   => Auth::guard('api')->factory()->getTTL() * 60
+            'expires_in'   => $this->authService->getExpiresIn(),
         ], wrapper: false);
     }
 }
