@@ -15,7 +15,7 @@ class GatewayController extends Controller
     {
         $this->gatewayService->toggleIsActive($id);
 
-        return $this->success('Gateway updated');
+        return $this->success('Gateway updated sucessfully');
     }
 
     public function updatePriority(int $id, GatewayUpdatePriorityRequest $request)
@@ -24,6 +24,6 @@ class GatewayController extends Controller
 
         $this->gatewayService->update($id, $data);
 
-        return $this->success('Gateway updated');
+        return $this->success('Gateway updated sucessfully');
     }
 }

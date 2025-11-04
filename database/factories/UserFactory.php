@@ -2,10 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Enums\UserRoleEnum;
+use App\Utils\UserRoleUtil;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -22,12 +21,7 @@ class UserFactory extends Factory
         return [
             'email' => fake()->unique()->safeEmail(),
             'password' => static::$password ??= Hash::make('password'),
-            'role' => fake()->randomElement([
-                UserRoleEnum::ADMIN->value,
-                UserRoleEnum::MANAGER->value,
-                UserRoleEnum::FINANCE->value,
-                UserRoleEnum::USER->value,
-            ]),
+            'role' => fake()->randomElement(UserRoleUtil::getAllRoles()),
         ];
     }
 }
