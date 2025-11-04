@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests\Gateway;
 
+use App\Utils\UserRoleUtil;
 use Illuminate\Foundation\Http\FormRequest;
 
 class GatewayUpdatePriorityRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return UserRoleUtil::checkRoles(config('roles.gateways'));
     }
 
     public function rules(): array

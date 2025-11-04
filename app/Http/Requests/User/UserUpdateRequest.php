@@ -10,7 +10,7 @@ class UserUpdateRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return UserRoleUtil::checkRoles(config('roles.users'));
     }
 
     public function rules(): array
