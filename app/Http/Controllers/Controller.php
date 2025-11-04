@@ -17,8 +17,10 @@ abstract class Controller
         return response()->json(['message' => $message], $status);
     }
 
-    protected function json(array $data, int $status = Response::HTTP_OK): JsonResponse
+    protected function json(array $data, bool $wrapper = true, int $status = Response::HTTP_OK): JsonResponse
     {
-        return response()->json(['data' => $data], $status);
+        if ($wrapper) return response()->json(['data' => $data], $status);
+
+        return response()->json($data, $status);
     }
 }
