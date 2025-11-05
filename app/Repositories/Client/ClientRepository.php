@@ -14,15 +14,4 @@ class ClientRepository extends BaseRepository implements ClientRepositoryInterfa
     {
         parent::__construct(new Client());
     }
-
-    public function findByIdWithTransactions(int|string $id): array|null
-    {
-        $client = $this->model->find($id);
-
-        if (!$client) return null;
-
-        $client->load('transactions.gateway');
-
-        return $client?->toArray();
-    }
 }

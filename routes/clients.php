@@ -7,7 +7,7 @@ $roles = collect(config('roles.clients'))->implode('|');
 
 Route::group([
     'prefix' => '/clients',
-    'middleware' => ['auth:api', "check-roles:{$roles}"]
+    'middleware' => ['auth:api', "roles:{$roles}"]
 ], function () {
     Route::get('/', [ClientController::class, 'index']);
     Route::get('/{id}', [ClientController::class, 'show']);

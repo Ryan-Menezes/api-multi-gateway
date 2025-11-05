@@ -7,7 +7,7 @@ $roles = collect(config('roles.products'))->implode('|');
 
 Route::group([
     'prefix' => '/products',
-    'middleware' => ['auth:api', "check-roles:{$roles}"]
+    'middleware' => ['auth:api', "roles:{$roles}"]
 ], function () {
     Route::get('/', [ProductController::class, 'index']);
     Route::get('/{id}', [ProductController::class, 'show']);

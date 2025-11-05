@@ -19,7 +19,7 @@ return [
     'transactions' => [
         UserRoleEnum::USER->value,
     ],
-    'transactions.refound' => [
+    'transactions-refund' => [
         UserRoleEnum::FINANCE->value,
     ],
 ];

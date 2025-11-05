@@ -7,3 +7,4 @@ require_once __DIR__ . '/gateways.php';
 require_once __DIR__ . '/users.php';
 require_once __DIR__ . '/products.php';
 require_once __DIR__ . '/clients.php';
+require_once __DIR__ . '/transactions.php';

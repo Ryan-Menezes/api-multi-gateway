@@ -27,6 +27,15 @@ trait BaseService
         return $result;
     }
 
+    public function findByIdWithRelations(int|string $id, array $relations = []): array|null
+    {
+        $result = $this->repository->findByIdWithRelations($id, $relations);
+
+        if (!$result) throw new NotFoundHttpException('Not found');
+
+        return $result;
+    }
+
     public function create(array $data): array
     {
         return $this->repository->create($data);

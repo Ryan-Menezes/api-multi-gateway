@@ -19,7 +19,7 @@ class ClientController extends Controller
 
     public function show(int|string $id)
     {
-        $client = $this->clientService->findByIdWithTransactions($id);
+        $client = $this->clientService->findByIdWithRelations($id, ['transactions.gateway']);
 
         return $this->json($client);
     }

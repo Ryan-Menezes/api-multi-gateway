@@ -11,7 +11,7 @@ abstract class TransactionStatusUtil
         return [
             TransactionStatusEnum::OPENED->value,
             TransactionStatusEnum::PAID->value,
-            TransactionStatusEnum::REFOUNDED->value,
+            TransactionStatusEnum::REFUNDED->value,
             TransactionStatusEnum::CANCELED->value,
         ];
     }
