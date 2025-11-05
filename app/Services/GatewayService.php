@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Exceptions\GatewayApiException;
 use App\Repositories\Gateway\GatewayRepositoryInterface;
+use App\Services\GatewayApi\GatewayApiInterface;
 
 class GatewayService implements ServiceInterface
 {
@@ -20,5 +22,14 @@ class GatewayService implements ServiceInterface
         $this->repository->update($id, [
             'is_active' => !$gateway['is_active'],
         ]);
+    }
+
+    public function getInstanceOfGatewayByName(string $gatewayName): GatewayApiInterface
+    {
+        $gatewayApi = config("gateways.{$gatewayName}");
+
+        if (!$gatewayApi) throw new GatewayApiException("We were unable to find an instance of the gateway: {$gatewayName}, please add it to the config/gateways.php file.");
+
+        return $gatewayApi;
     }
 }

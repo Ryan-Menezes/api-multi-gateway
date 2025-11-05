@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\GatewayService;
 use App\Services\TransactionService;
 
 class TransactionController extends Controller
 {
     public function __construct(
         private TransactionService $transactionService,
+        private GatewayService $gatewayService,
     ) {}
 
     public function index()
@@ -26,9 +28,7 @@ class TransactionController extends Controller
 
     public function refund(int|string $id)
     {
-        $transaction = $this->transactionService->findById($id);
-
-        // TODO: Enviar pedido de reembolso para a api
+        $this->transactionService->refund($id, ['gateway']);
 
         return $this->success('Transaction refunded sucessfully');
     }
