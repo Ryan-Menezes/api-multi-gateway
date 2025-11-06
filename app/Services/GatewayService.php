@@ -28,8 +28,8 @@ class GatewayService implements ServiceInterface
     {
         $gatewayApi = config("gateways.{$gatewayName}");
 
-        if (!$gatewayApi) throw new GatewayApiException("We were unable to find an instance of the gateway: {$gatewayName}, please add it to the config/gateways.php file.");
+        if (!$gatewayApi && class_exists($gatewayApi)) throw new GatewayApiException("We were unable to find an instance of the gateway: {$gatewayName}, please add it to the config/gateways.php file.");
 
-        return $gatewayApi;
+        return new $gatewayApi();
     }
 }

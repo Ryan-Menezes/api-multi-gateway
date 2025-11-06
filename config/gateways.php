@@ -1,9 +1,6 @@
 <?php
 
-use App\Services\GatewayApi\Gateway1GatewayApi;
-use App\Services\GatewayApi\Gateway2GatewayApi;
-
 return [
-    'gateway-1' => new Gateway1GatewayApi(),
-    'gateway-2' => new Gateway2GatewayApi(),
+    'gateway-1' => App\Services\GatewayApi\Gateway1GatewayApi::class,
+    'gateway-2' => App\Services\GatewayApi\Gateway2GatewayApi::class,
 ];
